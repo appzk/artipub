@@ -37,7 +37,7 @@ export default class ArticlePublisher extends BaseExecutor {
           task.error = '文章URL未保存成功'
           await task.save()
         }
-      } catch (e) {
+      } catch (e: any) {
         task.status = constants.status.ERROR
         task.error = e.toString()
         await task.save()

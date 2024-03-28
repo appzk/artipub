@@ -4,7 +4,7 @@
   "description": "Article publishing platform that automatically distributes your articles to various media channels",
   "scripts": {
     "prod": "http-server ./dist",
-    "dev": "cross-env UMI_ENV=dev umi dev",
+    "dev": "cross-env UMI_ENV=dev umi dev --openssl-legacy-provider ",
     "build:dev": "cross-env UMI_ENV=dev umi build",
     "build:prod": "cross-env UMI_ENV=prod umi build",
     "prerelease": "npm version prerelease --preid=alpha",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/crawlab-team/artipub.git",
+    "url": "https://github.com/appzk/artipub.git",
     "directory": "frontend"
   },
   "keywords": [
@@ -97,6 +97,10 @@
     "stylelint": "^13.0.0",
     "typescript": "^4.0.3",
     "webpack-theme-color-replacer": "^1.2.15"
+  },
+  "engines" : {
+    "npm" : ">=8.0.0 <9.0.0",
+    "node" : ">=16.0.0 <17.0.0"
   },
   "checkFiles": [
     "src/**/*.js*",
