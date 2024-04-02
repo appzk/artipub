@@ -8,13 +8,16 @@ const router = Router();
 import { UserPlatform, Platform, Cookie, Task, Article } from  '@/models';
 
 const getCookieStatus = async (platform: any, userId): Promise<string> => {
+  console.log('platform.name',platform.name, 'userId', userId);
   const cookies = await Cookie.find({ domain: { $regex: platform.name } , user: userId })
   if (!cookies || !cookies.length) return constants.cookieStatus.NO_COOKIE
   return constants.cookieStatus.EXISTS
 }
 
 const getLoginStatus = async (platform: any, userId): Promise<boolean> => {
+  console.log('getLoginStatus--platform.name',platform.name,platform._id, 'userId', userId);
   const platformState = await UserPlatform.findOne({ user: userId, platform: platform._id })
+  console.log('platformState=', platformState)
   return !!platformState?.loggedIn;
 }
 
@@ -23,9 +26,12 @@ const getPlatformList = async (req, res) => {
     for (let platform of platforms) {
       platform.loggedIn = await getLoginStatus(platform, req.user._id)
     }
+    // logger.info(platforms)
+    // logger.info(res)
     await Result.success(res, platforms)
   };
 const getPlatform = async (req, res) => {
+  
     const platform = await UserPlatform.findOne({ _id: ObjectId(req.params.id) , user: req.user._id })
     platform!.cookieStatus = await getCookieStatus(platform, req.user._id)
     await Result.success(res, platform)

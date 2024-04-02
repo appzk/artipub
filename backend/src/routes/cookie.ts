@@ -15,6 +15,7 @@ const addCookies = async (req, res) => {
         domain: c.domain,
         name: c.name
       })
+      // console.log('待检查的cookie=', cookie);
       if (cookie) {
         // 已存在该cookie
         for (let k in c) {
