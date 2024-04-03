@@ -2,7 +2,7 @@ import { Effect } from 'dva';
 import { Reducer } from 'redux';
 
 import { query as queryUsers, queryCurrent } from "@/services/user";
-import { deleteAllCookies } from '@/utils/utils';
+import { deleteAllCookies, hasCookieKey } from '@/utils/utils';
 
 export interface CurrentUser {
   avatar?: string;
@@ -63,9 +63,8 @@ const UserModel: UserModelType = {
       });
     },
     *fetchLoginState(_, { call, put }) {
-      const isLogin = document.cookie
-        .split(";")
-        .some((c) => c.split("=")[0] === "apt");
+      const isLogin = hasCookieKey('apt');
+      console.log(isLogin,'isLogin', document.cookie);
       yield put({
         type: "updateLoginState",
         payload: isLogin,

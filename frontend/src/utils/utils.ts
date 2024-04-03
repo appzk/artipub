@@ -34,3 +34,7 @@ export const deleteAllCookies = () => {
 }
 
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
+
+export const hasCookieKey = (key: string): boolean => {
+  return document.cookie.split('; ').some((cookie) => cookie.startsWith(`${key}=`));
+}
