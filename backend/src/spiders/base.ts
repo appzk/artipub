@@ -13,6 +13,7 @@ import {
   ITask,
   IAritcle,
 } from "@/models";
+import log4js from 'log4js'
 import constants from '../constants'
 import config from './config'
 import logger from '../logger'
@@ -36,6 +37,7 @@ export default class BaseSpider {
   loginSel: any;
   publishNavigationChange: any;
   editorSel: any;
+  logger: log4js.Logger;
 
   constructor(taskId, platformId) {
     // 任务ID
@@ -72,7 +74,7 @@ export default class BaseSpider {
       revision: '',
       detectionPath: '',
       folderName: '.chromium-browser-snapshots',
-      hosts: ['https://storage.googleapis.com', 'https://npm.taobao.org/mirrors'],
+      hosts: ['https://storage.googleapis.com', 'https://npmmirror.com/'], // 'https://npm.taobao.org/mirrors'
       retry: 3,
       silent: false,
     });
@@ -98,6 +100,8 @@ export default class BaseSpider {
 
     });
 
+    this.logger = logger;
+    this.logger.info('platform='+this.platform.name);
     // 页面
     this.page = await this.browser.newPage();
 

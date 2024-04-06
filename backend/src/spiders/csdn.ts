@@ -4,7 +4,7 @@ import BaseSpider from './base';
 
 export default class CsdnSpider extends BaseSpider {
 
-
+  // https://editor.csdn.net/md/?not_checkout=1
   async afterGoToEditor() {
     // 创建tmp临时文件夹
     const dirPath = path.resolve(path.join(__dirname, '..', 'tmp'))
@@ -46,34 +46,72 @@ export default class CsdnSpider extends BaseSpider {
     // 选择文章类型
     // 点击发布文章
     const elPubBtn = await this.page.$('.btn-publish');
+    this.logger.info('elPubBtn='+elPubBtn);
     await elPubBtn!.click();
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForTimeout(2000);
 
     // 选择类别
-    await this.page.evaluate(() => {
-      const element = document.querySelector('.textfield') as HTMLTextAreaElement;
-      element.value = 'original';
-      if ('createEvent' in document) {
-        let evt = document.createEvent('HTMLEvents');
-        evt.initEvent('change', false, true);
-        element.dispatchEvent(evt);
-      } else {
-        //@ts-ignore
-        element.fireEvent('onchange');
-      }
-      // document.querySelector('.textfield > option:nth-child(1)').removeAttribute('selected')
-    });
+    // await this.page.evaluate(() => {
+    //   const element = document.querySelector('.textfield') as HTMLTextAreaElement;
+    //   element.value = 'original';
+    //   if ('createEvent' in document) {
+    //     let evt = document.createEvent('HTMLEvents');
+    //     evt.initEvent('change', false, true);
+    //     element.dispatchEvent(evt);
+    //   } else {
+    //     //@ts-ignore
+    //     element.fireEvent('onchange');
+    //   }
+    //   // document.querySelector('.textfield > option:nth-child(1)').removeAttribute('selected')
+    // });
 
+    const modalContent = await this.page.waitForSelector('.modal__content');
+    await this.page.waitForTimeout(2000);
+    this.logger.info('modalContent='+modalContent);
+    if (modalContent) {
+      const summaryBtn = await this.page.waitForSelector('button.btn-getdistill');
+      this.logger.info('summaryBtn='+summaryBtn);
+      await this.page.waitForTimeout(1000);
+      await summaryBtn.click();
+      await this.page.waitForTimeout(1000);
+    }
+    
+
+    
+    // button
+    // const modealBtnBar = await this.page.waitForSelector('.modal__button-bar');
+    // this.logger.info('modealBtnBar='+modealBtnBar);
+    // await this.page.waitForTimeout(1000);
+
+    //   // Click on the "保存为草稿" button
+    // const btnDraft = await this.page.click('.modal__button-bar > button:nth-child(2)');
+    // this.logger.info('btnDraft='+btnDraft);
+    // await this.page.waitForTimeout(1000);
+
+    // this.logger.info('保存草稿');
+
+    // You can add some delay here if necessary to wait for the action to complete
+    // await page.waitForTimeout(1000);
+
+    // Click on the "发布文章" button
+    // await this.page.click('.modal__button-bar > button:nth-child(4)');
     // 选择发布形式
+    // https://mp.csdn.net/mp_blog/creation/success/137436834
+    // https://editor.csdn.net/md/?articleId=137436834
     await this.page.evaluate(task => {
       const el = document.querySelector('#' + task.pubType) as HTMLInputElement;
       el.click();
+      // Wait for the modal to appear
+      
     }, this.task as any);
+    // // button btn-b-red ml16
+      
   }
 
   async afterPublish() {
     this.task.url = await this.page.evaluate(() => {
-      const el = document.querySelector('.toarticle');
+      const el = document.querySelector('.success-modal-footer a[nth-child(0)]');
+      this.logger.info('csdn afterPublish: el='+el);
       return el!.getAttribute('href');
     }) as string;
     await this.task.save();
