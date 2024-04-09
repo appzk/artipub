@@ -158,5 +158,18 @@ export default {
       label: '尾部模版',
       value: ''
     },
-  ]
+  ],
+  crawltargets: [
+    {
+      name: 'tjxz',
+      label: '英语口语',
+      url: 'https://www.tjxz.cc/tag/bilingual-reading',
+      selector: {
+        title: 'article h3.entry-title a',
+        summary: 'article div > p',
+        cover: 'article figure > a > img',
+        content: 'div#main-content .entry-content.mh-clearfix',
+      }
+    }
+  ],
 }

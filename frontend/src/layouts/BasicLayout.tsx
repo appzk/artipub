@@ -69,7 +69,7 @@ const footer = (
       </a>
     </Row>
     <Row className={style.copyright}>
-      Copyright (c) 2021, Crawlab Team All rights reserved.
+      Copyright (c) 2024, All rights reserved.
     </Row>
   </div>
 );

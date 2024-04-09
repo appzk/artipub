@@ -1,3 +1,11 @@
+/*
+ * @Date: 2024-04-02 13:53:32
+ * @LastEditors: roy fugangb@enn.cn
+ * @LastEditTime: 2024-04-02 16:36:02
+ * @FilePath: /artipub/backend/src/routes/cookie.ts
+ * @Description: 
+ * Copyright (c) 2024 by ygyg.cn, All Rights Reserved.
+ */
 import * as Result from '../utils/result'
 import { Router } from 'express'
 import { Cookie } from '@/models';
@@ -25,6 +33,7 @@ const addCookies = async (req, res) => {
         }
       } else {
         // 不存在该cookie，新增
+        console.log('c=', c , 'user=', req.user._id);
         cookie = new Cookie({ ...c, user: req.user._id })
       }
       await cookie.save()

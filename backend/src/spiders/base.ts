@@ -74,7 +74,7 @@ export default class BaseSpider {
       revision: '',
       detectionPath: '',
       folderName: '.chromium-browser-snapshots',
-      hosts: ['https://storage.googleapis.com', 'https://npmmirror.com/'], // 'https://npm.taobao.org/mirrors'
+      hosts: ['https://storage.googleapis.com', 'https://registry.npmmirror.com/-/binary'],
       retry: 3,
       silent: false,
     });
